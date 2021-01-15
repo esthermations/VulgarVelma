@@ -3,30 +3,24 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with AWS.Client;
 with AWS.Response;
-with GNATCOLL.JSON;
+--  with GNATCOLL.JSON;
 
 procedure VulgarVelma is
-
-   --  type Snowflake is new Interfaces.Unsigned_64;
 
    User_Agent : constant String :=
       "VulgarVelma (https://github.com/esthermations/VulgarVelma, 0.0.0)";
 
-   Connection : AWS.Client.HTTP_Connection;
+   Discord_API_URL  : constant String := "https://discord.com/api/v8";
+   --  Certificate_Path : constant String :=
+   --     "/Users/estherokeefe/Documents/vulgarvelma.cer";
 
    Response      : AWS.Response.Data;
    Response_Body : Unbounded_String;
 begin
 
-   AWS.Client.Create
-      (Connection  => Connection,
-       Host        => "https://discord.com/api/v8",
-       Certificate => "/Users/estherokeefe/Documents/vulgarvelma.cer",
-       User_Agent  => User_Agent);
-
-   AWS.Client.Get (Connection => Connection,
-                   Result     => Response,
-                   URI        => "/gateway");
+   Response := AWS.Client.Get (URL         => Discord_API_URL,
+                               --  Certificate => Certificate_Path,
+                               User_Agent  => User_Agent);
 
    Response_Body := AWS.Response.Message_Body (Response);
 
@@ -36,4 +30,5 @@ begin
    Put (To_String (Response_Body));
    Put ("]");
    New_Line;
+   Put_Line ("User_Agent: " & User_Agent);
 end VulgarVelma;
