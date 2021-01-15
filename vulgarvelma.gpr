@@ -1,4 +1,5 @@
 with "AWS";
+with "GNATCOLL";
 
 project Vulgarvelma is
 
